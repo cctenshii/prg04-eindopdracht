@@ -49,8 +49,8 @@ export class Game extends Engine {
         });
         this.add(ground);
 
-        const lifeup = new Lifeup();
-        this.add(lifeup);
+        // const lifeup = new Lifeup();
+        // this.add(lifeup);
 
         this.bear = new Bear();
         this.add(this.bear);

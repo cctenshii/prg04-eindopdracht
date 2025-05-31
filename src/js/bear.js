@@ -1,10 +1,12 @@
 import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom } from "excalibur";
 import { Resources } from "./resources.js";
+import { Ground } from "./ground.js";
 
 export class Bear extends Actor {
 
     speed = 200;
     lives = 3;
+    hasJumped = false;
 
     constructor() {
         super({
@@ -23,27 +25,38 @@ export class Bear extends Actor {
         this.body.useGravity = true;
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.pos = new Vector(100, 600);
-        
-        this.on("collisionstart", (event) => {
-            if (event.other.name === "ground") {
+
+        this.on('collisionstart', (event) => {
+            console.log("Collision detected with:", event.other);
+            if (event.contact.normal.y < 0) {
+                console.log("Bear landed on the ground");
+                this.hasJumped = false; // Reset jump state when landing on the ground
             }
         });
     }
 
     onPreUpdate(engine, delta) {
-        if (engine.input.keyboard.wasPressed(Keys.Space)) {
+        if (engine.input.keyboard.wasPressed(Keys.Space) && !this.hasJumped) {
             this.body.applyLinearImpulse(new Vector(0, -500 * delta))
+            this.hasJumped = true; // Set jump state to true
         }
     }
 
     loseLife() {
         this.lives--;
         this.scene?.engine.ui.updateLives(this.lives);
-        this.pos = new Vector(100, 600);
         if (this.lives <= 0) {
             this.kill();
             this.scene?.engine.stop(); // End game
             alert("Game Over!");
+        }
+    }
+
+    getLife() {
+        this.lives++;
+        this.scene?.engine.ui.updateLives(this.lives);
+        if (this.lives = 2) {
+            return; // Prevent lives from exceeding 3
         }
     }
 }

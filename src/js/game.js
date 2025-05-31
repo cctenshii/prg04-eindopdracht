@@ -6,6 +6,7 @@ import { Bear } from './bear.js'
 import { Cone } from './cone.js'
 import { UI } from './ui.js'
 import { Lifeup } from './lifeup.js'
+import { Ground } from './ground.js'
 
 export class Game extends Engine {
 
@@ -40,17 +41,8 @@ export class Game extends Engine {
         console.log(background1);
         console.log(background2);
 
-        const ground = new Actor({
-            name: "ground",
-            pos: new Vector(640, 720),
-            width: 1280,
-            height: 40,
-            collisionType: CollisionType.Fixed
-        });
+        const ground = new Ground();
         this.add(ground);
-
-        // const lifeup = new Lifeup();
-        // this.add(lifeup);
 
         this.bear = new Bear();
         this.add(this.bear);
@@ -61,6 +53,8 @@ export class Game extends Engine {
         this.startConeSpawner();
 
         this.startScoreCounter();
+
+        this.lifeUpSpawner();
     }
 
     startConeSpawner() {
@@ -78,7 +72,16 @@ export class Game extends Engine {
             this.score += 2;
             this.ui.updateScore(this.score);
             }
-        }, 1000); // 1 second
+        }, 1000); // plus 2 points every second
+    }
+
+    lifeUpSpawner() {
+        setInterval(() => {
+            if (this.bear && !this.bear.isKilled()) {
+                const newLifeUp = new Lifeup();
+                this.add(newLifeUp);
+            }
+        }, 5000); // Spawn a new life up every 5 seconds
     }
 }
 

@@ -77,9 +77,6 @@ export class Game extends Engine {
 
         const spawn = () => {
             if (this.bear && !this.bear.isKilled()) {
-                const cameraX = this.currentScene.camera.x;
-                const screenRight = cameraX + this.drawWidth / 2;
-
                 const spawnType = Math.random() < 0.5 ? "obstaclecone" : "obstaclerock";
 
                 if (spawnType === "obstaclerock") {

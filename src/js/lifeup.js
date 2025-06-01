@@ -16,7 +16,7 @@ export class Lifeup extends Actor {
 
         this.body.collisionType = CollisionType.Passive;
 
-        this.pos = new Vector(1300, 600);
+        this.pos = new Vector(1300, 550);
         this.vel = new Vector(-450, 0); // Move left
 
         this.on('collisionstart', (event) => this.hitSomething(event))

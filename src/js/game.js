@@ -27,7 +27,7 @@ export class Game extends Engine {
                 solver: SolverStrategy.Arcade,
                 gravity: new Vector(0, 800)
             }
-         })
+         });
         this.start(ResourceLoader).then(() => this.startGame())
     }
 

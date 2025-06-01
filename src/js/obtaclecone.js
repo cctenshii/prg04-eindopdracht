@@ -23,7 +23,7 @@ export class ObstacleCone extends Actor {
     onInitialize() {
         this.body.collisionType = CollisionType.Passive;
 
-        this.on('collisionstart', (event) => this.hitSomething(event))
+        this.on('collisionstart', (event) => this.hitSomething(event));
     }
 
     hitSomething(event) {

@@ -1,8 +1,8 @@
 import { Resources } from "./resources";
-import { ObstacleCone } from "./obtaclecone";
 import { Vector } from "excalibur";
+import { Obstacle } from "./obstacle";
 
-export class ObstacleRock extends ObstacleCone {    
+export class ObstacleRock extends Obstacle {    
     constructor() {
         super();
         this.graphics.use(Resources.Rock.toSprite());

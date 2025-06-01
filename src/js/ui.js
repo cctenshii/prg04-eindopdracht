@@ -1,4 +1,4 @@
-import { Actor, Color, Font, Label, Vector } from "excalibur";
+import { Actor, Color, Font, Label, TextAlign, Vector } from "excalibur";
 
 export class UI extends Actor {
 
@@ -9,32 +9,35 @@ export class UI extends Actor {
     onInitialize(engine) {
         this.#scoreLabel = new Label({
             text: 'Score: 0',
-            pos: new Vector(100, 50),
+            pos: new Vector(1200, 50),
             font: new Font({
                 size: 30,
                 family: 'Open Sans',
-                color: Color.White
+                color: Color.White,
+                textAlign: TextAlign.Right
             })
         });
 
         this.#livesLabel = new Label({
             text: 'Lives: 3',
-            pos: new Vector(100, 100),
+            pos: new Vector(1200, 100),
             font: new Font({
                 size: 30,
                 family: 'Open Sans',
-                color: Color.White
+                color: Color.White,
+                textAlign: TextAlign.Right
             })
         });
 
         const highscore = localStorage.getItem('highscore') || 0;
         this.#highscoreLabel = new Label({
             text: `Highscore: ${highscore}`,
-            pos: new Vector(100, 150),
+            pos: new Vector(1200, 150),
             font: new Font({
                 size: 30,
                 family: 'Open Sans',
-                color: Color.White
+                color: Color.White,
+                textAlign: TextAlign.Right
             })
         });
 

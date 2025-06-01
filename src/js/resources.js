@@ -5,7 +5,8 @@ const Resources = {
     Background: new ImageSource('images/background.png'),
     Bear: new ImageSource('images/bear.png'),
     Cone: new ImageSource('images/cone.png'),
-    Heart: new ImageSource('images/heart.png')
+    Heart: new ImageSource('images/heart.png'),
+    Rock: new ImageSource('images/rock.png')
 }
 
 

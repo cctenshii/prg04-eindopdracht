@@ -4,7 +4,7 @@ import { Resources } from "./resources.js";
 export class Bear extends Actor {
 
     speed = 200;
-    lives = 3;
+    #lives = 3;
     hasJumped = false;
 
     constructor() {
@@ -23,7 +23,7 @@ export class Bear extends Actor {
         
         this.body.useGravity = true;
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
-        this.pos = new Vector(100, 600);
+        this.pos = new Vector(100, 600); // Initial position of the bear
 
         this.on('collisionstart', (event) => {
             console.log("Collision detected with:", event.other);
@@ -39,12 +39,18 @@ export class Bear extends Actor {
             this.body.applyLinearImpulse(new Vector(0, -500 * delta))
             this.hasJumped = true; // Set jump state to true
         }
+
+        if (engine.input.keyboard.isHeld(Keys.S)) {
+            this.scale = new Vector(0.5, 0.25); // Scale down when 'S' is held
+        } else {
+            this.scale = new Vector(0.5, 0.5); // Reset scale when 'S' is not held
+        }
     }
 
     loseLife() {
-        this.lives--;
-        this.scene?.engine.ui.updateLives(this.lives);
-        if (this.lives <= 0) {
+        this.#lives--;
+        this.scene?.engine.ui.updateLives(this.#lives);
+        if (this.#lives <= 0) {
             this.kill();
             this.scene?.engine.stop(); // End game
             alert("Game Over!");
@@ -59,12 +65,12 @@ export class Bear extends Actor {
     }
 
     getLife() {
-        if (this.lives === 3) {
+        if (this.#lives === 3) {
             return; // Prevent lives from exceeding 3
         } else {
-            this.lives++;
-            this.scene?.engine.ui.updateLives(this.lives);
-            console.log("Bear got an extra life! Lives left:", this.lives);
+            this.#lives++;
+            this.scene?.engine.ui.updateLives(this.#lives);
+            console.log("Bear got an extra life! Lives left:", this.#lives);
         }
     }
 }

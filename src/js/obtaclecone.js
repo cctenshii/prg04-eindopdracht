@@ -1,28 +1,27 @@
-import { Actor, Vector, Keys, CollisionType } from "excalibur";
+import { Actor, Vector, CollisionType } from "excalibur";
 import { Resources } from "./resources.js";
 import { Bear } from "./bear.js";
 
-export class Cone extends Actor {
+export class ObstacleCone extends Actor {
 
     #randomSpeed;
-
+    
     constructor() {
         super({
             width: Resources.Cone.width,
             height: Resources.Cone.height
-            
         }); // construct the parent class
-    }
-
-    onInitialize() {
         this.graphics.use(Resources.Cone.toSprite());
-        this.body.collisionType = CollisionType.Passive;
-        this.scale = new Vector(0.22, 0.22);
 
+        this.scale = new Vector(0.22, 0.22);
         this.pos = new Vector(1300, 600);
         
         this.#randomSpeed = Math.random() * 300 + 400; // Random speed between 200 and 500
         this.vel = new Vector(-this.#randomSpeed, 0); // Move left
+    }
+
+    onInitialize() {
+        this.body.collisionType = CollisionType.Passive;
 
         this.on('collisionstart', (event) => this.hitSomething(event))
     }

@@ -3,16 +3,19 @@ import { Actor, Engine, Vector, DisplayMode, CollisionType, SolverStrategy } fro
 import { Resources, ResourceLoader } from './resources.js'
 import { Background } from './background.js'
 import { Bear } from './bear.js'
-import { Cone } from './cone.js'
+import { ObstacleCone } from './obtaclecone.js'
 import { UI } from './ui.js'
 import { Lifeup } from './lifeup.js'
 import { Ground } from './ground.js'
+import { ObstacleRock } from './obstaclerock.js'
 
 export class Game extends Engine {
 
     ui;
     bear;
-    score = 0;
+    #score = 0;
+    speed = 400; // Speed of the obstacles
+    speedIncrease = 200;
 
     constructor() {
         super({ 
@@ -50,27 +53,45 @@ export class Game extends Engine {
         this.ui = new UI();
         this.add(this.ui);
 
-        this.startConeSpawner();
+        this.startObstacleSpawner();
 
         this.startScoreCounter();
 
         this.lifeUpSpawner();
     }
 
-    startConeSpawner() {
-        setInterval(() => {
+    startObstacleSpawner() {
+        const spawn = () => {
             if (this.bear && !this.bear.isKilled()) {
-                const newCone = new Cone();
-                this.add(newCone);
-            }   
-        }, 3000); // Spawn a new cone every 3 seconds
+                const cameraX = this.currentScene.camera.x;
+                const screenRight = cameraX + this.drawWidth / 2;
+
+                const spawnType = Math.random() < 0.5 ? "obstaclecone" : "obstaclerock";
+
+                if (spawnType === "obstaclerock") {
+                    const newObstacleRock = new ObstacleRock();
+                    // newObstacleRock.pos = new Vector(screenRight - 50, 200 + Math.random() * 150);
+                    // const scale = 0.2 + Math.random() * 0.4;
+                    // newObstacleRock.scale = new Vector(scale, scale);
+                    // newObstacleRock.vel = new Vector(-this.speed, 0);
+                    this.add(newObstacleRock);
+                } else {
+                    const newObstacleCone = new ObstacleCone();
+                    // newObstacleCone.pos = new Vector(screenRight - 50, 580);
+                    // newObstacleCone.vel = new Vector(-this.speed, 0);
+                    this.add(newObstacleCone);
+                }
+            }
+            setTimeout(spawn, 2000 + Math.random() * 3000);
+        };
+        spawn();
     };
 
     startScoreCounter() {
         setInterval(() => {
             if (this.bear && !this.bear.isKilled()) {
-            this.score += 2;
-            this.ui.updateScore(this.score);
+            this.#score += 2;
+            this.ui.updateScore(this.#score);
             }
         }, 1000); // plus 2 points every second
     }

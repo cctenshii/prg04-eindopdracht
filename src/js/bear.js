@@ -1,6 +1,5 @@
 import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom } from "excalibur";
 import { Resources } from "./resources.js";
-import { Ground } from "./ground.js";
 
 export class Bear extends Actor {
 
@@ -37,7 +36,7 @@ export class Bear extends Actor {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space) && !this.hasJumped) {
-            this.body.applyLinearImpulse(new Vector(0, -500 * delta))
+            this.body.applyLinearImpulse(new Vector(0, -250 * delta))
             this.hasJumped = true; // Set jump state to true
         }
     }
@@ -49,6 +48,13 @@ export class Bear extends Actor {
             this.kill();
             this.scene?.engine.stop(); // End game
             alert("Game Over!");
+            const highscore = localStorage.getItem('highscore') || 0;
+            if (this.scene?.engine.ui.score > highscore) {
+                localStorage.setItem('highscore', this.scene?.engine.ui.score);
+                alert(`New Highscore: ${this.scene?.engine.ui.score}`);
+            } else {
+                alert(`Highscore: ${highscore}`);
+            }
         }
     }
 

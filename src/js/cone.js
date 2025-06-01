@@ -3,6 +3,9 @@ import { Resources } from "./resources.js";
 import { Bear } from "./bear.js";
 
 export class Cone extends Actor {
+
+    #randomSpeed;
+
     constructor() {
         super({
             width: Resources.Cone.width,
@@ -13,11 +16,13 @@ export class Cone extends Actor {
 
     onInitialize() {
         this.graphics.use(Resources.Cone.toSprite());
-        this.body.collisionType = CollisionType.Active;
+        this.body.collisionType = CollisionType.Passive;
         this.scale = new Vector(0.22, 0.22);
 
         this.pos = new Vector(1300, 600);
-        this.vel = new Vector(-400, 0); // Move left
+        
+        this.#randomSpeed = Math.random() * 300 + 400; // Random speed between 200 and 500
+        this.vel = new Vector(-this.#randomSpeed, 0); // Move left
 
         this.on('collisionstart', (event) => this.hitSomething(event))
     }

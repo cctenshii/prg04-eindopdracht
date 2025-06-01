@@ -62,7 +62,7 @@ export class Game extends Engine {
             if (this.bear && !this.bear.isKilled()) {
                 const newCone = new Cone();
                 this.add(newCone);
-            }
+            }   
         }, 3000); // Spawn a new cone every 3 seconds
     };
 
@@ -81,7 +81,7 @@ export class Game extends Engine {
                 const newLifeUp = new Lifeup();
                 this.add(newLifeUp);
             }
-        }, 5000); // Spawn a new life up every 5 seconds
+        }, 10000); // Spawn a new life up every 10 seconds
     }
 }
 

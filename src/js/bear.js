@@ -59,10 +59,12 @@ export class Bear extends Actor {
     }
 
     getLife() {
-        this.lives++;
-        this.scene?.engine.ui.updateLives(this.lives);
-        if (this.lives = 2) {
+        if (this.lives === 3) {
             return; // Prevent lives from exceeding 3
+        } else {
+            this.lives++;
+            this.scene?.engine.ui.updateLives(this.lives);
+            console.log("Bear got an extra life! Lives left:", this.lives);
         }
     }
 }

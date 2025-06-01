@@ -2,16 +2,20 @@ import { Actor, Vector } from "excalibur";
 import { Resources } from "./resources.js";
 
 export class Background extends Actor {
-    onInitialize(engine) {
-        this.graphics.use(Resources.Background.toSprite());
-        this.scale = new Vector(2.5, 2.5);
-        this.anchor = Vector.Half; // Center the background
-        this.vel = new Vector(-200, 0); // Move left
+    constructor(x = 0) {
+        super({
+            width: 1280,
+            height: 720,
+            pos: new Vector(x, 360), // y = 360 for center if anchor is (0, 0.5)
+            anchor: new Vector(0, 0.5)
+        });
+        const sprite = Resources.Background.toSprite();
+        sprite.width = 1280;
+        sprite.height = 720;
+        this.graphics.use(sprite);
+    }
 
-        this.on('postupdate', (event) => {
-            if (this.pos.x < -1280) {
-                this.pos.x = 1280;
-            }
-        })
+    onPreUpdate(engine, delta) {
+        this.pos.x -= 200 * (delta / 1000); // Move left, adjust speed as needed
     }
 }

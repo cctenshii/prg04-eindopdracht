@@ -14,7 +14,7 @@ export class ObstacleCone extends Actor {
         this.graphics.use(Resources.Cone.toSprite());
 
         this.scale = new Vector(0.22, 0.22);
-        this.pos = new Vector(1300, 600);
+        this.pos = new Vector(1300, 550);
         
         this.#randomSpeed = Math.random() * 300 + 400; // Random speed between 200 and 500
         this.vel = new Vector(-this.#randomSpeed, 0); // Move left

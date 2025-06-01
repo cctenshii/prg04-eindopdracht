@@ -61,6 +61,7 @@ export class Bear extends Actor {
             } else {
                 alert(`Highscore: ${highscore}`);
             }
+            window.location.reload();
         }
     }
 

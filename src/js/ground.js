@@ -5,7 +5,7 @@ export class Ground extends Actor {
         super({
             width: 1280,
             height: 40,
-            pos: new Vector(640, 720), // Center the ground at the bottom of the screen
+            pos: new Vector(640, 650), // Center the ground at the bottom of the screen
         });
         
         this.name = "ground"; // Set a name for the ground actor

@@ -10,6 +10,7 @@ import { Ground } from './ground.js'
 import { ObstacleRock } from './obstaclerock.js'
 
 export class Game extends Engine {
+    backgrounds = [];
 
     ui;
     bear;
@@ -34,15 +35,11 @@ export class Game extends Engine {
     startGame() {
         console.log("start de game!")
         
-        const background1 = new Background();
-        const background2 = new Background();
-        background2.pos.x = 1280; // Position the second background to the right of the first
-
-        this.add(background1);
-        this.add(background2);
-
-        console.log(background1);
-        console.log(background2);
+        this.backgrounds = [
+            new Background(0),
+            new Background(1280)
+        ];
+        this.backgrounds.forEach(bg => this.add(bg));
 
         const ground = new Ground();
         this.add(ground);
@@ -60,7 +57,24 @@ export class Game extends Engine {
         this.lifeUpSpawner();
     }
 
+    onPreUpdate(engine, delta) {
+    // Loop backgrounds
+    for (let bg of this.backgrounds) {
+        if (bg.pos.x <= -1280) {
+            // Find the other background
+            const other = this.backgrounds.find(b => b !== bg);
+            bg.pos.x = other.pos.x + 1280;
+        }
+    }
+}
+
     startObstacleSpawner() {
+        let minInterval = 500; // minimum spawn interval in ms
+        let maxInterval = 1500; // minimum max interval in ms
+        let currentMin = 2000;
+        let currentMax = 3000;
+        let decrease = 10; // ms to decrease per spawn
+
         const spawn = () => {
             if (this.bear && !this.bear.isKilled()) {
                 const cameraX = this.currentScene.camera.x;
@@ -70,19 +84,17 @@ export class Game extends Engine {
 
                 if (spawnType === "obstaclerock") {
                     const newObstacleRock = new ObstacleRock();
-                    // newObstacleRock.pos = new Vector(screenRight - 50, 200 + Math.random() * 150);
-                    // const scale = 0.2 + Math.random() * 0.4;
-                    // newObstacleRock.scale = new Vector(scale, scale);
-                    // newObstacleRock.vel = new Vector(-this.speed, 0);
                     this.add(newObstacleRock);
                 } else {
                     const newObstacleCone = new ObstacleCone();
-                    // newObstacleCone.pos = new Vector(screenRight - 50, 580);
-                    // newObstacleCone.vel = new Vector(-this.speed, 0);
                     this.add(newObstacleCone);
                 }
+
+                // Decrease interval, but not below minimum
+                currentMin = Math.max(minInterval, currentMin - decrease);
+                currentMax = Math.max(maxInterval, currentMax - decrease);
             }
-            setTimeout(spawn, 2000 + Math.random() * 3000);
+            setTimeout(spawn, currentMin + Math.random() * (currentMax - currentMin));
         };
         spawn();
     };

@@ -36,7 +36,7 @@ export class Bear extends Actor {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space) && !this.hasJumped) {
-            this.body.applyLinearImpulse(new Vector(0, -250 * delta))
+            this.body.applyLinearImpulse(new Vector(0, -500 * delta))
             this.hasJumped = true; // Set jump state to true
         }
     }
